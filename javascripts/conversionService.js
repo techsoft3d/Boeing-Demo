@@ -3,7 +3,7 @@ modelUIDs = [
 ]
 
 async function startViewer() {
-        const conversionServiceURI = "https://csapi.techsoft3d.com";
+        const conversionServiceURI = "https://boeingscapi.techsoft3d.com";
 
         var viewer;
 
