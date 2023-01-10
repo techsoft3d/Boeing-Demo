@@ -18,7 +18,7 @@ async function startViewer() {
                 model: "boeing-full",
                 // streamingMode: Communicator.StreamingMode.OnDemand,
                 boundingPreviewMode: Communicator.BoundingPreviewMode.All,
-                enginePath: "https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@2022.2",
+                enginePath: "https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@latest",
                 rendererType: 0
         });
 
