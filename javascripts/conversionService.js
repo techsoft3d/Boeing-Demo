@@ -2,7 +2,7 @@ modelUIDs = [
        "3804b00f-8197-4ac0-be9b-61fef7bbc914" //boeing full
 ]
 
-async function startViewer() {
+async function startViewer(resourceLimit ) {
         const conversionServiceURI = "https://boeingscapi.techsoft3d.com";
 
         var viewer;
@@ -24,7 +24,8 @@ async function startViewer() {
                 // streamingMode: Communicator.StreamingMode.OnDemand,
                 boundingPreviewMode: Communicator.BoundingPreviewMode.All,
                 enginePath: "https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@2024.4.0",
-                rendererType: 0
+                rendererType: 0,
+                memoryLimit: resourceLimit
         });
 
         viewer.start();

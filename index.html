@@ -819,7 +819,7 @@
     //     window.location.replace("/error/too-many-requests");
     //   }
 
-    hwv = await startViewer()
+    hwv = await startViewer(resourceLimit)
 
     hwv.setCallbacks({
       sceneReady: function (camera) {
