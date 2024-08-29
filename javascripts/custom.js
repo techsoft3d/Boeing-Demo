@@ -1,4 +1,6 @@
-cameras = [
+import * as Communicator  from "@hoops/web-viewer";
+var camera;
+const cameras = [
     // Turbine View
     {
         "position": {
@@ -18,7 +20,7 @@ cameras = [
         },
         "width": 150,
         "height": 150,
-        "projection": 1,
+        "projection": 0,
         "nearLimit": 0.001,
         "className": "Communicator.Camera"
     },
@@ -41,7 +43,7 @@ cameras = [
         },
         "width": 140.04150764194193,
         "height": 140.04150764194193,
-        "projection": 1,
+        "projection": 0,
         "nearLimit": 0.001,
         "className": "Communicator.Camera"
     },
@@ -64,7 +66,7 @@ cameras = [
         },
         "width": 140.04150764194193,
         "height": 140.04150764194193,
-        "projection": 1,
+        "projection": 0,
         "nearLimit": 0.001,
         "className": "Communicator.Camera"
     },
@@ -87,7 +89,7 @@ cameras = [
         },
         "width": 366.063633810924,
         "height": 366.063633810924,
-        "projection": 1,
+        "projection": 0,
         "nearLimit": 0.001,
         "className": "Communicator.Camera"
     },
@@ -110,15 +112,17 @@ cameras = [
         },
         "width": 199.99999999999994,
         "height": 199.99999999999994,
-        "projection": 1,
+        "projection": 0,
         "nearLimit": 0.001,
         "className": "Communicator.Camera"
     }
 ];
 
-function setView(val) {
+export function setView(val) {
     if (val >= 0) {
-        var camera = Communicator.Camera.construct(cameras[val]);
-        hwv.getView().setCamera(camera, 500);
+        camera = Communicator.Camera.fromJson(cameras[val]);
+        hwv.view.setCamera(camera, 500);
     }
 }
+
+window.setView = setView;

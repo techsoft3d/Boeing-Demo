@@ -1,8 +1,10 @@
-modelUIDs = [
+import * as Communicator  from "@hoops/web-viewer";
+
+const modelUIDs = [
        "3804b00f-8197-4ac0-be9b-61fef7bbc914" //boeing full
 ]
 
-async function startViewer(resourceLimit ) {
+export async function startViewer(resourceLimit ) {
         const conversionServiceURI = "https://boeingscapi.techsoft3d.com";
 
         var viewer;

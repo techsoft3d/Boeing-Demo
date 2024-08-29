@@ -19,6 +19,10 @@
           'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', 'GTM-PB9P4KS');</script>
   <!-- End Google Tag Manager -->
+
+
+
+
   <link rel="stylesheet" href="stylesheets/TreeControl.css" />
   <link rel="stylesheet" href="stylesheets/Toolbar.css" />
   <link rel="stylesheet" href="stylesheets/Common.css" />
@@ -27,26 +31,30 @@
   <link rel="stylesheet" href="stylesheets/PropertyWindow.css" />
   <link rel="stylesheet" href="stylesheets/ViewerSettings.css" />
   <link rel="stylesheet" href="stylesheets/jquery.minicolors.css" />
-  <link rel="stylesheet" href="stylesheets/cssplay.css" />
   <link rel="stylesheet" href="stylesheets/drop-down.css" />
 
-  <script type="text/javascript" src="javascripts/communicator_scripts/jquery-3.3.1.min.js"></script>
+
+
+  <script type="text/javascript" src="javascripts/jquery-3.5.1.min.js"></script>
   <script type="text/javascript" src="javascripts/jquery-ui.min.js"></script>
-  <script type="text/javascript" src="javascripts/communicator_scripts/jquery.minicolors.min.js"></script>
+  <script type="text/javascript" src="javascripts/jquery.minicolors.min.js"></script>
   <script type="text/javascript" src="javascripts/jquery.ui.touch-punch.min.js"></script>
-  <script type="text/javascript" src="javascripts/communicator_scripts/keymaster.min.js"></script>
-  <script type="text/javascript" src="javascripts/communicator_scripts/iscroll.min.js"></script>
+  <script type="text/javascript" src="javascripts/keymaster.min.js"></script>
+  <script type="text/javascript" src="javascripts/iscroll.min.js"></script>
+  <script type="text/javascript" src="javascripts/mobile-detect.min.js"></script>
+
   <script type="text/javascript" src="javascripts/notify.js"></script>
 
-  <script type="text/javascript"
-    src="https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@2024.4.0/hoops_web_viewer.js?v=2023.2.0"
-    id="hwvScript"></script>
-  <script type="text/javascript" src="javascripts/communicator_scripts/web_viewer_ui.js?v=latest" id="hwvUI"></script>
-  <script type="text/javascript"
-    src="javascripts/communicator_scripts/communicator_server_integration.js?v=latest"></script>
-  <script type="text/javascript" src="javascripts/communicator_scripts/sample.js?v=latest"></script>
-  <script type="text/javascript" src="javascripts/custom.js?v=latest"></script>
-  <script type="text/javascript" src="javascripts/conversionService.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "@hoops/web-viewer": "https://cdn.jsdelivr.net/gh/techsoft3d/hoops-web-viewer@latest/hoops-web-viewer.mjs"
+      }
+    }
+  </script>
+
+  <script type="module" src="javascripts/custom.js"></script>
+  <script type="module" src="javascripts/conversionService.js"></script>
 
 
 
@@ -812,6 +820,9 @@
 </script>
 
 <script type="module">
+  import * as Communicator from "@hoops/web-viewer";
+  import { startViewer } from "/javascripts/conversionService.js"
+  import { DesktopUi } from "/javascripts/desktop/DesktopUi.js";
   // import { getContainerEndpoint } from '/javascripts/common/get_endpoint.js';
   async function runThis(resourceLimit) {
     // getContainerEndpoint().then((data) => {
@@ -828,13 +839,13 @@
         $("#modelBrowserWindow").css("visibility", "hidden");
         $("#modelBrowserWindow").css("opacity", "0");
 
-        hwv.getView().setBackgroundColor(new Communicator.Color(255, 255, 255), new Communicator.Color(255, 255, 255));
-        hwv.getSelectionManager().setHighlightLineElementSelection(false);
-        hwv.getSelectionManager().setHighlightFaceElementSelection(false);
-        hwv.getSelectionManager().setSelectParentIfSelected(false);
-        hwv.getView().setAmbientOcclusionEnabled(true);
-        hwv.getView().setAmbientOcclusionRadius(.02);
-        hwv.getView().setAntiAliasingMode(Communicator.AntiAliasingMode.SMAA);
+        hwv.view.setBackgroundColor(new Communicator.Color(255, 255, 255), new Communicator.Color(255, 255, 255));
+        hwv.selectionManager.setHighlightLineElementSelection(false);
+        hwv.selectionManager.setHighlightFaceElementSelection(false);
+        hwv.selectionManager.setSelectParentIfSelected(false);
+        hwv.view.setAmbientOcclusionEnabled(true);
+        hwv.view.setAmbientOcclusionRadius(.02);
+        hwv.view.setAntiAliasingMode(Communicator.AntiAliasingMode.SMAA);
         var orbitOperator = hwv.operatorManager.getOperator(Communicator.OperatorId.Orbit);
         orbitOperator.setOrbitFallbackMode(Communicator.OrbitFallbackMode.CameraTarget);
         document.getElementById('explode-button').style.pointerEvents = 'none'
@@ -854,15 +865,15 @@
         document.getElementById('explode-button').style.opacity = 0.5
       },
       modelStructureReady: function () {
-        hwv.getView().getNavCube().disable();
-        hwv.getView().getAxisTriad().disable();
+        hwv.view.getNavCube().disable();
+        hwv.view.getAxisTriad().disable();
         document.getElementById('explode-button').style.pointerEvents = 'auto'
         document.getElementById('cuttingplane-button').style.pointerEvents = 'auto'
         document.getElementById('cuttingplane-button').style.opacity = 1
         document.getElementById('explode-button').style.opacity = 1
       },
       camera: function (camera) {
-        if (hwv.getOperatorManager().indexOf(Communicator.OperatorId.WalkMode) == 0) {
+        if (hwv.operatorManager.indexOf(Communicator.OperatorId.WalkMode) == 0) {
           let walkoperator = hwv.operatorManager.getOperator(Communicator.OperatorId.Walk);
           walkoperator.setViewAngle(70)
         }
@@ -874,12 +885,15 @@
 
     });
 
+    var md = new MobileDetect(window.navigator.userAgent);
+    var screenConfiguration = (md.mobile() !== null) ? Communicator.ScreenConfiguration.Mobile : Communicator.ScreenConfiguration.screenConfiguration;
+
     const uiConfig = {
       containerId: "content",
-      screenConfiguration: Sample.screenConfiguration,
+      screenConfiguration: screenConfiguration,
     };
 
-    const ui = new Communicator.Ui.Desktop.DesktopUi(hwv, uiConfig);
+    const ui = new DesktopUi(hwv, uiConfig);
 
     // hwv.start();
 
@@ -888,6 +902,7 @@
   }
   window.runThis = runThis;
 </script>
+
 
 <style>
   /* The Modal (background) */
