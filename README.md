@@ -1,6 +1,6 @@
 # Hoops Web Platform - Boeing Demo
 
-See this demo running live on [GitHub Pages](https://techsoft3d.github.io/Boeing-Demo/).
+See this demo running live on [GitHub Pages](https://boeing-docker.techsoft3d.com/).
 
 ## In order to run locally
 
